@@ -1,0 +1,254 @@
+Enter password: ********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 19
+Server version: 8.0.28 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.38 sec)
+
+mysql> create database Address_Book_Service_DB;
+Query OK, 1 row affected (3.46 sec)
+
+mysql> use Address_Book_Service_DB;
+Database changed
+mysql> create table addressbook(firstname varchar(50),lastname varchar(50),address varchar(50),city varchar(50),state varchar(50),zip varchar(50),phonenumber varchar(50),email varchar(50),primary key(firstname,lastname));
+Query OK, 0 rows affected (5.90 sec)
+
+mysql> desc addressbook;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| firstname   | varchar(50) | NO   | PRI | NULL    |       |
+| lastname    | varchar(50) | NO   | PRI | NULL    |       |
+| address     | varchar(50) | YES  |     | NULL    |       |
+| city        | varchar(50) | YES  |     | NULL    |       |
+| state       | varchar(50) | YES  |     | NULL    |       |
+| zip         | varchar(50) | YES  |     | NULL    |       |
+| phonenumber | varchar(50) | YES  |     | NULL    |       |
+| email       | varchar(50) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+8 rows in set (0.13 sec)
+mysql> insert into addressbook(firstname,lastname,address,city,state,zip,phonenumber,email) values('Venktesh','Mane','Baner','pune','maharashtra','411033','9527872718','venktesh.mane@gmail.com'),('Dnyaneshwar','Mane','BVBCollege','Omerga','Maharashtra','413606','9404622718','venku.mane18@gmail.com');
+Query OK, 2 rows affected (0.37 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbook;
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                   |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com  |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+2 rows in set (0.07 sec)
+
+mysql> update addressbook set phonenumber='9527872718' where firstname='Venktesh' and lastname='Mane';
+Query OK, 0 rows affected (0.04 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> insert into addressbook values('Om','Magatrao','Balewadi','pune','Maharashtra','411033','7875626220','omrajemagatrao@gmail.com');
+Query OK, 1 row affected (0.22 sec)
+
+mysql> select * from addressbook;
++-------------+----------+------------+--------+-------------+--------+-------------+--------------------------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                    |
++-------------+----------+------------+--------+-------------+--------+-------------+--------------------------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com   |
+| Om          | Magatrao | Balewadi   | pune   | Maharashtra | 411033 | 7875626220  | omrajemagatrao@gmail.com |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com  |
++-------------+----------+------------+--------+-------------+--------+-------------+--------------------------+
+3 rows in set (0.03 sec)
+mysql> select * from addressbook where city='pune';
++-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | address  | city | state       | zip    | phonenumber | email                    |
++-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
+| Om        | Magatrao | Balewadi | pune | Maharashtra | 411033 | 7875626220  | omrajemagatrao@gmail.com |
+| Venktesh  | Mane     | Baner    | pune | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com  |
++-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
+2 rows in set (0.00 sec)
+
+mysql> delete from addressbook where firstname='Om' and lastname='Magatrao';
+Query OK, 1 row affected (0.34 sec)
+
+mysql> select * from addressbook where city='Pune' or state='Maharashtra';
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                   |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com  |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+2 rows in set (0.00 sec)
+
+mysql> insert into addressbook values('Shubham','Mane','Panvel','Mumbai','Maharashtra','413600','9195278727','shubham@gmail.com');
+Query OK, 1 row affected (0.28 sec)
+
+mysql> select * from addressbook where city='Mumbai' or state='Maharashtra';
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                   |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com  |
+| Shubham     | Mane     | Panvel     | Mumbai | Maharashtra | 413600 | 9195278727  | shubham@gmail.com       |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
+3 rows in set (0.04 sec)
+mysql> select * from addressbook where phonenumber='9527872718';
++-----------+----------+---------+------+-------------+--------+-------------+-------------------------+
+| firstname | lastname | address | city | state       | zip    | phonenumber | email                   |
++-----------+----------+---------+------+-------------+--------+-------------+-------------------------+
+| Venktesh  | Mane     | Baner   | pune | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com |
++-----------+----------+---------+------+-------------+--------+-------------+-------------------------+
+1 row in set (0.00 sec)
+mysql> select count(state) from addressbook;
++--------------+
+| count(state) |
++--------------+
+|            3 |
++--------------+
+1 row in set (0.07 sec)
+
+mysql> select count(state) from addressbook where city='pune';
++--------------+
+| count(state) |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select count(state) from addressbook where state='maharashtra';
++--------------+
+| count(state) |
++--------------+
+|            3 |
++--------------+
+1 row in set (0.02 sec)
+
+mysql> select count(state) from addressbook where state='maharashtra' and city='mumbai';
++--------------+
+| count(state) |
++--------------+
+|            1 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select firstname from addressbook where city='pune' order by firstname;
++-----------+
+| firstname |
++-----------+
+| Venktesh  |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select lastname from addressbook where city='mumbai' order by lastname;
++----------+
+| lastname |
++----------+
+| Mane     |
++----------+
+1 row in set (0.00 sec)
+
+mysql> ^C
+mysql> alter table addressbook add column restype varchar(100);
+Query OK, 0 rows affected (3.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table addressbook add column emptype varchar(100), add column mstatus varchar(50);
+Query OK, 0 rows affected (2.84 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbook;
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+---------+---------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                   | restype | emptype | mstatus |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+---------+---------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com  | NULL    | NULL    | NULL    |
+| Shubham     | Mane     | Panvel     | Mumbai | Maharashtra | 413600 | 9195278727  | shubham@gmail.com       | NULL    | NULL    | NULL    |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com | NULL    | NULL    | NULL    |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> alter table addressbook drop mstatus;
+Query OK, 0 rows affected (4.41 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from addressbook;
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+---------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                   | restype | emptype |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+---------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com  | NULL    | NULL    |
+| Shubham     | Mane     | Panvel     | Mumbai | Maharashtra | 413600 | 9195278727  | shubham@gmail.com       | NULL    | NULL    |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com | NULL    | NULL    |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> update addressbook set restype='temp', emptype='permanent';
+Query OK, 3 rows affected (0.31 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from addressbook;
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                   | restype | emptype   |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com  | temp    | permanent |
+| Shubham     | Mane     | Panvel     | Mumbai | Maharashtra | 413600 | 9195278727  | shubham@gmail.com       | temp    | permanent |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com | temp    | permanent |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+
+3 rows in set (0.12 sec)
+mysql> update addressbook set restype='permanent' where city='pune';
+Query OK, 1 row affected (0.38 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update addressbook set restype='permanent' where city='pune';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> alter table addressbook add name varchar(15);
+Query OK, 0 rows affected (4.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table addressbook add type varchar(15) default 'Family';
+Query OK, 0 rows affected (1.75 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update addressbook set restype='self' where firstname='Venktesh' or lastname='Mane';
+Query OK, 3 rows affected (0.70 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> update addressbook set restype = 'family' where lastname = 'Mane';
+Query OK, 3 rows affected (0.23 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from addressbook;
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+------+--------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                   | restype | emptype   | name | type   |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+------+--------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com  | family  | permanent | NULL | Family |
+| Shubham     | Mane     | Panvel     | Mumbai | Maharashtra | 413600 | 9195278727  | shubham@gmail.com       | family  | permanent | NULL | Family |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com | family  | permanent | NULL | Family |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+------+--------+
+3 rows in set (0.05 sec)
+
+mysql> select distinct city from addressbook;
++--------+
+| city   |
++--------+
+| Omerga |
+| Mumbai |
+| pune   |
++--------+
+3 rows in set (0.12 sec)
+
