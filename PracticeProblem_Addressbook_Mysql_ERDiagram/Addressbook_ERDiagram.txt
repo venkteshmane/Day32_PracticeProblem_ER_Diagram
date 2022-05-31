@@ -11,6 +11,8 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
+----------UC1-Ability to create a Address Book Service DB-----------------
+
 mysql> show databases;
 +--------------------+
 | Database           |
@@ -28,6 +30,9 @@ Query OK, 1 row affected (3.46 sec)
 
 mysql> use Address_Book_Service_DB;
 Database changed
+
+---------UC2-Ability to create a Address Book Table--------------------
+
 mysql> create table addressbook(firstname varchar(50),lastname varchar(50),address varchar(50),city varchar(50),state varchar(50),zip varchar(50),phonenumber varchar(50),email varchar(50),primary key(firstname,lastname));
 Query OK, 0 rows affected (5.90 sec)
 
@@ -45,6 +50,9 @@ mysql> desc addressbook;
 | email       | varchar(50) | YES  |     | NULL    |       |
 +-------------+-------------+------+-----+---------+-------+
 8 rows in set (0.13 sec)
+
+----------------UC-3-Ability to insert new Contacts to Address Book-------------------------
+
 mysql> insert into addressbook(firstname,lastname,address,city,state,zip,phonenumber,email) values('Venktesh','Mane','Baner','pune','maharashtra','411033','9527872718','venktesh.mane@gmail.com'),('Dnyaneshwar','Mane','BVBCollege','Omerga','Maharashtra','413606','9404622718','venku.mane18@gmail.com');
 Query OK, 2 rows affected (0.37 sec)
 Records: 2  Duplicates: 0  Warnings: 0
@@ -58,6 +66,7 @@ mysql> select * from addressbook;
 +-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
 2 rows in set (0.07 sec)
 
+------------UC-4-Ability to edit existing contact person using their name---------------
 mysql> update addressbook set phonenumber='9527872718' where firstname='Venktesh' and lastname='Mane';
 Query OK, 0 rows affected (0.04 sec)
 Rows matched: 1  Changed: 0  Warnings: 0
@@ -74,14 +83,8 @@ mysql> select * from addressbook;
 | Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com  |
 +-------------+----------+------------+--------+-------------+--------+-------------+--------------------------+
 3 rows in set (0.03 sec)
-mysql> select * from addressbook where city='pune';
-+-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
-| firstname | lastname | address  | city | state       | zip    | phonenumber | email                    |
-+-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
-| Om        | Magatrao | Balewadi | pune | Maharashtra | 411033 | 7875626220  | omrajemagatrao@gmail.com |
-| Venktesh  | Mane     | Baner    | pune | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com  |
-+-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
-2 rows in set (0.00 sec)
+
+---------------UC5-Ability to delete a person using person's name-------------
 
 mysql> delete from addressbook where firstname='Om' and lastname='Magatrao';
 Query OK, 1 row affected (0.34 sec)
@@ -95,6 +98,8 @@ mysql> select * from addressbook where city='Pune' or state='Maharashtra';
 +-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
 2 rows in set (0.00 sec)
 
+-----------------UC6-Retrieve Contaact to a City or State --------------
+
 mysql> insert into addressbook values('Shubham','Mane','Panvel','Mumbai','Maharashtra','413600','9195278727','shubham@gmail.com');
 Query OK, 1 row affected (0.28 sec)
 
@@ -107,13 +112,63 @@ mysql> select * from addressbook where city='Mumbai' or state='Maharashtra';
 | Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com |
 +-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+
 3 rows in set (0.04 sec)
-mysql> select * from addressbook where phonenumber='9527872718';
-+-----------+----------+---------+------+-------------+--------+-------------+-------------------------+
-| firstname | lastname | address | city | state       | zip    | phonenumber | email                   |
-+-----------+----------+---------+------+-------------+--------+-------------+-------------------------+
-| Venktesh  | Mane     | Baner   | pune | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com |
-+-----------+----------+---------+------+-------------+--------+-------------+-------------------------+
+
+---------------UC-7-size of address book by City and State--------------
+
+
+mysql> select count(state) from addressbook where state='maharashtra' and city='mumbai';
++--------------+
+| count(state) |
++--------------+
+|            1 |
++--------------+
 1 row in set (0.00 sec)
+
+-------------UC 8 - RETRIEVE CONTACT WITH CITY-----------------
+
+mysql> select * from addressbook where city='pune';
++-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
+| firstname | lastname | address  | city | state       | zip    | phonenumber | email                    |
++-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
+| Om        | Magatrao | Balewadi | pune | Maharashtra | 411033 | 7875626220  | omrajemagatrao@gmail.com |
+| Venktesh  | Mane     | Baner    | pune | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com  |
++-----------+----------+----------+------+-------------+--------+-------------+--------------------------+
+2 rows in set (0.00 sec)
+mysql> select firstname from addressbook where city='pune' order by firstname;
++-----------+
+| firstname |
++-----------+
+| Venktesh  |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select lastname from addressbook where city='mumbai' order by lastname;
++----------+
+| lastname |
++----------+
+| Mane     |
++----------+
+1 row in set (0.00 sec)
+
+
+------------UC-9-identify each Address Book with name-----------
+
+mysql> update addressbook set restype = 'family' where lastname = 'Mane';
+Query OK, 3 rows affected (0.23 sec)
+Rows matched: 3  Changed: 3  Warnings: 0
+
+mysql> select * from addressbook;
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+------+--------+
+| firstname   | lastname | address    | city   | state       | zip    | phonenumber | email                   | restype | emptype   | name | type   |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+------+--------+
+| Dnyaneshwar | Mane     | BVBCollege | Omerga | Maharashtra | 413606 | 9404622718  | venku.mane18@gmail.com  | family  | permanent | NULL | Family |
+| Shubham     | Mane     | Panvel     | Mumbai | Maharashtra | 413600 | 9195278727  | shubham@gmail.com       | family  | permanent | NULL | Family |
+| Venktesh    | Mane     | Baner      | pune   | maharashtra | 411033 | 9527872718  | venktesh.mane@gmail.com | family  | permanent | NULL | Family |
++-------------+----------+------------+--------+-------------+--------+-------------+-------------------------+---------+-----------+------+--------+
+3 rows in set (0.05 sec)
+
+-----------UC-10-Ability to get number of contact persons---------------
+
 mysql> select count(state) from addressbook;
 +--------------+
 | count(state) |
@@ -138,29 +193,7 @@ mysql> select count(state) from addressbook where state='maharashtra';
 +--------------+
 1 row in set (0.02 sec)
 
-mysql> select count(state) from addressbook where state='maharashtra' and city='mumbai';
-+--------------+
-| count(state) |
-+--------------+
-|            1 |
-+--------------+
-1 row in set (0.00 sec)
-
-mysql> select firstname from addressbook where city='pune' order by firstname;
-+-----------+
-| firstname |
-+-----------+
-| Venktesh  |
-+-----------+
-1 row in set (0.00 sec)
-
-mysql> select lastname from addressbook where city='mumbai' order by lastname;
-+----------+
-| lastname |
-+----------+
-| Mane     |
-+----------+
-1 row in set (0.00 sec)
+------------UC-11-Ability to get number of contact persons-------------
 
 mysql> ^C
 mysql> alter table addressbook add column restype varchar(100);
